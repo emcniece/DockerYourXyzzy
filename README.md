@@ -2,8 +2,8 @@
 
 Get your Xyzzy on: `docker pull emcniece/dockeryourxyzzy`
 
-- [Github](https://github.com/emcniece/DockerYourXyzzy)
-- [Docker Hub](https://github.com/emcniece/DockerYourXyzzy)
+- Github: [emcniece/DockerYourXyzzy](https://github.com/emcniece/DockerYourXyzzy)
+- Docker Hub: [emcniece/dockeryourxyzzy](https://hub.docker.com/r/emcniece/dockeryourxyzzy/)
 
 # Supported tags and respective `Dockerfile` links:
 
@@ -128,11 +128,13 @@ docker-compose up -d
 
 # ToDo
 
-- [ ] Figure out how to run `:latest` properly
+- [ ] Figure out how to run `:latest` properly with a Postgres db
+- [ ] Import & run sql files if specified for the Postgres db
 - [ ] Buildtime config customization via Maven flags
 - [ ] Runtime config customization via Maven flags
 - [ ] Fetch GeoIP database in entrypoint.sh
 
 # Notes
 
+- Haven't actually got this working with an external Postgres db yet
 - Versioning and tagging isn't done well here because [Pretend You're Xyzzy](https://github.com/ajanata/PretendYoureXyzzy) doesn't seem to tag or version.
