@@ -1,5 +1,7 @@
 # Docker Your Xyzzy
 
+Get your Xyzzy on: `docker pull emcniece/dockeryourxyzzy`
+
 # Supported tags and respective `Dockerfile` links:
 
 - `latest`, `run`, `1`, `1-run` ([Dockerfile](./Dockerfile))
