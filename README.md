@@ -5,11 +5,13 @@ Get your Xyzzy on: `docker pull emcniece/dockeryourxyzzy`
 - Github: [emcniece/DockerYourXyzzy](https://github.com/emcniece/DockerYourXyzzy)
 - Docker Hub: [emcniece/dockeryourxyzzy](https://hub.docker.com/r/emcniece/dockeryourxyzzy/)
 
+
 # Supported tags and respective `Dockerfile` links:
 
 - `latest`, `run`, `1`, `1-run` ([Dockerfile](./Dockerfile))
 - `base`, `1-base` ([Dockerfile](./Dockerfile))
 - `dev`, `1-dev` ([Dockerfile](./Dockerfile))
+
 
 # What is Docker Your Xyzzy?
 
@@ -22,17 +24,19 @@ This multi-step [Dockerfile](./Dockerfile) contains 3 stages: `base`, `dev`, and
 
 The PYX project can be used in Docker format for development, outputting the built files, or running in production.
 
+
 ## Output Built Files to Directory
 
-Copy the `.war` and `.jar` files to `./xyz-output/`:
+Run & copy the `.war` and `.jar` files to `./xyz-output/` (container is removed after it executes):
 
 ```sh
 docker run --rm \
   -v $(PWD)/xyz-output:/output \
   emcniece/dockeryourxyzzy:base
 
-ls -al ./output
+ls -al ./xyz-output
 ```
+
 
 ## Run In Development Mode
 
@@ -50,7 +54,7 @@ docker exec -it pyx-dev bash
 ```
 
 
-## Build With Overrides
+## Run With Overrides
 
 Settings in `build.properties` can be modified by passing them in the container CMD:
 
@@ -76,11 +80,23 @@ docker run -d \
   emcniece/dockeryourxyzzy:run
 ```
 
+
+## Run with Docker-Compose
+
+An example production stack of PYX with a Postgres container can be found in [docker-compose.yml](./docker-compose.yml):
+
+```sh
+# Run PYX/Postgres stack
+docker-compose up -d --build
+```
+
+
 # Building
 
 This project can be built and run by any of the 3 following methods: CLI `docker build` commands, CLI `make` commands, or Docker-Compose.
 
-## Makefile
+
+## Build via `make`
 
 The [Makefile](./Makefile) documents the frequently used build commands:
 
@@ -105,7 +121,7 @@ make run-debug
 ```
 
 
-## Docker Build
+## Build via `docker build`
 
 Docker commands can be found in the [Makefile](./Makefile):
 
@@ -117,14 +133,16 @@ docker build -t pyx
 docker build -t pyx --target dev
 ```
 
-## Docker-Compose
 
-An example production stack of PYX with a Postgres container can be found in [docker-compose.yml](./docker-compose.yml):
+## Build via Docker-Compose
+
+Force building with the `--build` flag:
 
 ```sh
 # Run PYX/Postgres stack
-docker-compose up -d
+docker-compose up -d --build
 ```
+
 
 # ToDo
 
@@ -133,6 +151,7 @@ docker-compose up -d
 - [ ] Buildtime config customization via Maven flags
 - [ ] Runtime config customization via Maven flags
 - [ ] Fetch GeoIP database in entrypoint.sh
+
 
 # Notes
 
