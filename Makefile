@@ -62,3 +62,9 @@ release: docker
 	@echo "Pushing $(DOCKER_IMAGE):latest"
 	docker tag $(DOCKER_IMAGE):$(VERSION) $(DOCKER_IMAGE):latest
 	docker push $(DOCKER_IMAGE):latest
+	docker push $(DOCKER_IMAGE):base
+	docker push $(DOCKER_IMAGE):dev
+	docker push $(DOCKER_IMAGE):run
+	docker push $(DOCKER_IMAGE):$(VERSION)-base
+	docker push $(DOCKER_IMAGE):$(VERSION)-dev
+	docker push $(DOCKER_IMAGE):$(VERSION)-run

@@ -2,6 +2,9 @@
 
 Get your Xyzzy on: `docker pull emcniece/dockeryourxyzzy`
 
+- [Github](https://github.com/emcniece/DockerYourXyzzy)
+- [Docker Hub](https://github.com/emcniece/DockerYourXyzzy)
+
 # Supported tags and respective `Dockerfile` links:
 
 - `latest`, `run`, `1`, `1-run` ([Dockerfile](./Dockerfile))
@@ -73,8 +76,6 @@ docker run -d \
   emcniece/dockeryourxyzzy:run
 ```
 
-
-
 # Building
 
 This project can be built and run by any of the 3 following methods: CLI `docker build` commands, CLI `make` commands, or Docker-Compose.
@@ -127,9 +128,10 @@ docker-compose up -d
 
 # ToDo
 
+- [ ] Figure out how to run `:latest` properly
 - [ ] Buildtime config customization via Maven flags
 - [ ] Runtime config customization via Maven flags
-
+- [ ] Fetch GeoIP database in entrypoint.sh
 
 # Notes
 

@@ -18,7 +18,7 @@ RUN apk add --no-cache curl tar bash procps \
 
 ADD ./overrides/settings-docker.xml /usr/share/maven/ref/
 ADD overrides /overrides
-ADD entrypoint.sh bootstrap.sh maven.sh /
+ADD scripts/entrypoint.sh scripts/bootstrap.sh scripts/maven.sh /
 
 # PYX
 ENV GIT_BRANCH="master"
@@ -38,13 +38,14 @@ CMD cp /project/target/ZY.war /output && cp /project/target/ZY.jar /output
 # ---
 # docker build --target dev .
 FROM base AS dev
+WORKDIR /app
 CMD mvn clean package war:exploded jetty:run -Dhttps.protocols=TLSv1.2 -Dmaven.buildNumber.doCheck=false -Dmaven.buildNumber.doUpdate=false
 
 # ---
 # docker build .
 # or:
 # docker build --target runtime .
-FROM davidcaste/alpine-tomcat:jre8tomcat7 AS runtime
+FROM davidcaste/alpine-tomcat:jre8tomcat7 AS run
 COPY --from=base /project/target/ZY.war /opt/tomcat/webapps/
 VOLUME /opt/tomcat/webapps/
 CMD /opt/tomcat/bin/catalina.sh run
