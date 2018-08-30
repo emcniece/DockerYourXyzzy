@@ -8,9 +8,9 @@ Get your Xyzzy on: `docker pull emcniece/dockeryourxyzzy`
 
 # Supported tags and respective `Dockerfile` links:
 
-- `latest`, `run`, `1`, `1-run` ([Dockerfile](./Dockerfile))
-- `base`, `1-base` ([Dockerfile](./Dockerfile))
-- `dev`, `1-dev` ([Dockerfile](./Dockerfile))
+- `latest`, `run`, `2`, `2-run` ([Dockerfile](./Dockerfile))
+- `base`, `2-base` ([Dockerfile](./Dockerfile))
+- `dev`, `2-dev` ([Dockerfile](./Dockerfile))
 
 
 # What is Docker Your Xyzzy?
