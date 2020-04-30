@@ -1,24 +1,42 @@
-version: '3'
+version: "3.7"
+
 services:
+
   pyx:
-    build: .
-    command: tail -f /dev/null
-    #command: /opt/tomcat/bin/catalina.sh run
+    image: emcniece/dockeryourxyzzy:latest
+    build: ./
     ports:
      - "8080:8080"
     volumes:
       - .pyx:/app
+    networks:
+      - pyx-net
     environment:
-      TOMCAT_USER: tomcat_user
-      TOMCAT_PASSWORD: tomcat_password
-      DB_NAME: pyx
-      DB_USER: pyx
-      DB_PASSWORD: CorrectHorseBatteryStaple
+      - TOMCAT_USER=tomcat_user
+      - TOMCAT_PASSWORD=tomcat_password
+      - DB_NAME=pyx
+      - DB_USER=pyx
+      - DB_PASSWORD=CorrectHorseBatteryStaple
+
   postgres:
     image: "postgres:alpine"
     volumes:
       - .pgdata:/var/lib/postgresql/data
+    networks:
+      - pyx-net
     environment:
-      POSTGRES_DB: pyx
-      POSTGRES_USER: pyx
-      POSTGRES_PASSWORD: CorrectHorseBatteryStaple
+      - POSTGRES_DB=pyx
+      - POSTGRES_USER=pyx
+      - POSTGRES_PASSWORD=CorrectHorseBatteryStaple
+
+  ngrok:
+    image: wernight/ngrok:latest
+    networks:
+      - pyx-net
+    ports:
+      - "4040:4040"
+    environment:
+      - NGROK_PORT=pyx:8080
+
+networks:
+  pyx-net:

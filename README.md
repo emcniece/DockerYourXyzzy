@@ -8,16 +8,17 @@ Get your Xyzzy on: `docker pull emcniece/dockeryourxyzzy`
 
 # Supported tags and respective `Dockerfile` links:
 
-- `latest`, `run`, `2`, `2-run` ([Dockerfile](./Dockerfile))
-- `base`, `2-base` ([Dockerfile](./Dockerfile))
-- `dev`, `2-dev` ([Dockerfile](./Dockerfile))
+- `latest`, `3` ([Dockerfile](./Dockerfile))
+- `latest`, `run`, `2`, `2-run` ([Dockerfile](https://github.com/emcniece/DockerYourXyzzy/blob/83bfeebe9c3a7619dd4409c02b92fa8b88dd298a/Dockerfile))
+- `base`, `2-base` ([Dockerfile](https://github.com/emcniece/DockerYourXyzzy/blob/83bfeebe9c3a7619dd4409c02b92fa8b88dd298a/Dockerfile))
+- `dev`, `2-dev` ([Dockerfile](https://github.com/emcniece/DockerYourXyzzy/blob/83bfeebe9c3a7619dd4409c02b92fa8b88dd298a/Dockerfile))
 
 
 # What is Docker Your Xyzzy?
 
 This is a containerized build of the [Pretend You're Xyzzy](https://github.com/ajanata/PretendYoureXyzzy) Cards Against Humanity clone.
 
-This multi-step [Dockerfile](./Dockerfile) contains 3 stages: `base`, `dev`, and `run`. The `base` image will copy the compiled files over to an output directory, and the `dev` and `run` images will run the project.
+> ⚠ Version 3 (April 2020) is a vastly simplified Docker image, may break if upgrading from version 2. It no longer features multi-step builds.
 
 
 # Usage
@@ -25,20 +26,24 @@ This multi-step [Dockerfile](./Dockerfile) contains 3 stages: `base`, `dev`, and
 The PYX project can be used in Docker format for development, outputting the built files, or running in production.
 
 
-## Output Built Files to Directory
+## Run with Docker-Compose (fastest)
 
-Run & copy the `.war` and `.jar` files to `./xyz-output/` (container is removed after it executes):
+An example stack of PYX with a Postgres database and an [Ngrok](https://ngrok.com/) tunnel can be found in [docker-compose.yml](./docker-compose.yml):
 
 ```sh
-docker run --rm \
-  -v $(PWD)/xyz-output:/output \
-  emcniece/dockeryourxyzzy:base
-
-ls -al ./xyz-output
+# Run PYX/Postgres stack
+docker-compose up -d --build
 ```
 
+Once the containers are running, you can:
 
-## Run In Development Mode
+- Visit http://localhost:8080/game.jsp to play locally
+- Visit http://localhost:4040/status to find your Ngrok URL
+- Visit https://#####.ngrok.io to share publicly
+- Add extra cards via https://github.com/ajanata/PretendYoureXyzzy/wiki/Cardcast
+
+
+## Run Standalone Container
 
 Keep the container up with SQLite and `war:exploded jetty:run`:
 
@@ -46,7 +51,7 @@ Keep the container up with SQLite and `war:exploded jetty:run`:
 docker run -d \
   -p 8080:8080 \
   --name pyx-dev \
-  emcniece/dockeryourxyzzy:dev
+  emcniece/dockeryourxyzzy:latest
 
 # Visit http://localhost:8080 in your browser
 # Or, start a bash session within the container:
@@ -61,33 +66,12 @@ Settings in `build.properties` can be modified by passing them in the container 
 ```sh
 docker run -d \
   -p 8080:8080 \
-  emcniece/dockeryourxyzzy:dev \
+  emcniece/dockeryourxyzzy:latest \
   mvn clean package war:war \
     -Dhttps.protocols=TLSv1.2 \
     -Dmaven.buildNumber.doCheck=false \
     -Dmaven.buildNumber.doUpdate=false \
     -Dmaven.hibernate.url=jdbc:postgresql://postgres/pyx
-```
-
-
-## Run In Production Mode
-
-Project `build.properties` commands can be overridden by altering the default container CMD:
-
-```sh
-docker run -d \
-  -p 8080:8080 \
-  emcniece/dockeryourxyzzy:run
-```
-
-
-## Run with Docker-Compose
-
-An example production stack of PYX with a Postgres container can be found in [docker-compose.yml](./docker-compose.yml):
-
-```sh
-# Run PYX/Postgres stack
-docker-compose up -d --build
 ```
 
 
@@ -104,15 +88,6 @@ The [Makefile](./Makefile) documents the frequently used build commands:
 # Build default (full / runtime) image
 make image
 
-# Build base image
-make image-base
-
-# Build dev image
-make image-dev
-
-# Build runtime image
-make image-run
-
 # Run container
 make run
 
@@ -128,9 +103,6 @@ Docker commands can be found in the [Makefile](./Makefile):
 ```sh
 # Build full/runtime image
 docker build -t pyx
-
-# Build dev image
-docker build -t pyx --target dev
 ```
 
 
@@ -146,7 +118,7 @@ docker-compose up -d --build
 
 # ToDo
 
-- [ ] Figure out how to run `:latest` properly with a Postgres db
+- [x] Figure out how to run `:latest` properly with a Postgres db
 - [ ] Import & run sql files if specified for the Postgres db
 - [ ] Buildtime config customization via Maven flags
 - [ ] Runtime config customization via Maven flags
@@ -155,5 +127,6 @@ docker-compose up -d --build
 
 # Notes
 
-- Haven't actually got this working with an external Postgres db yet
+- ~Haven't actually got this working with an external Postgres db yet~
+  - Now available via `docker-compose`
 - Versioning and tagging isn't done well here because [Pretend You're Xyzzy](https://github.com/ajanata/PretendYoureXyzzy) doesn't seem to tag or version.
