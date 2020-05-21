@@ -40,8 +40,6 @@ Once the containers are running, you can:
 - Visit http://localhost:8080/game.jsp to play locally
 - Visit http://localhost:4040/status to find your Ngrok URL
 - Visit https://#####.ngrok.io to share publicly
-- Add extra cards via https://github.com/ajanata/PretendYoureXyzzy/wiki/Cardcast
-
 
 ## Run Standalone Container
 
