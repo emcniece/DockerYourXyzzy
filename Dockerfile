@@ -16,9 +16,12 @@ RUN apk add --no-cache curl tar procps \
  && rm -f /tmp/apache-maven.tar.gz \
  && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
+RUN apk add dos2unix --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community/ --allow-untrusted
+
 ADD ./overrides/settings-docker.xml /usr/share/maven/ref/
 ADD overrides /overrides
 ADD scripts/entrypoint.sh /
+RUN dos2unix /entrypoint.sh
 
 # PYX
 ENV GIT_BRANCH master
