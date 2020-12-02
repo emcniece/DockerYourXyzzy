@@ -33,6 +33,8 @@ RUN apk --no-cache add git openssh \
  && git clone -b $GIT_BRANCH https://github.com/ajanata/PretendYoureXyzzy.git /project \
  && cd project \
  && cp build.properties.example build.properties \
+ && cp build.properties.example build.properties.a \
+ && cat build.properties.a /overrides/build.properties > build.properties \
  && mvn versions:use-dep-version \
   -Dincludes=com.maxmind.geoip2:geoip2 \
   -DdepVersion=2.8.1 \
@@ -46,4 +48,4 @@ ENTRYPOINT ["/entrypoint.sh"]
 
 WORKDIR /project
 
-CMD mvn clean package war:exploded jetty:run -Dhttps.protocols=TLSv1.2 -Dmaven.buildNumber.doCheck=false -Dmaven.buildNumber.doUpdate=false
+CMD cat build.properties.a /overrides/build.properties > build.properties && mvn clean package war:exploded jetty:run -Dhttps.protocols=TLSv1.2 -Dmaven.buildNumber.doCheck=false -Dmaven.buildNumber.doUpdate=false
