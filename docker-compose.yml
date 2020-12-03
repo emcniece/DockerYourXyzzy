@@ -22,6 +22,7 @@ services:
     image: "postgres:alpine"
     volumes:
       - .pgdata:/var/lib/postgresql/data
+      - ./init-db.d:/docker-entrypoint-initdb.d
     networks:
       - pyx-net
     environment:
