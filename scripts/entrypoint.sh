@@ -2,5 +2,4 @@
 set -e
 
 # Command exec
-echo Entrypoint executing: "$@"
-exec "$@"
+mvn jetty:run -Dhttps.protocols=TLSv1.2 -Dmaven.buildNumber.doCheck=false -Dmaven.buildNumber.doUpdate=false
