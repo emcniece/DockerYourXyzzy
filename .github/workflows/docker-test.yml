@@ -1,0 +1,20 @@
+name: Test Docker
+on:
+  push:
+    branches-ignore:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Build images
+      run: docker build --tag emcniece/dockeryourxyzzy .
+
+    - name: Inspect
+      run: docker inspect emcniece/dockeryourxyzzy
