@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
 
-    - name: Build images
+    - name: Build Image
       run: docker build --tag emcniece/dockeryourxyzzy .
 
     - name: Inspect
