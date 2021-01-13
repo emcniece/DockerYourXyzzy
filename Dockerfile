@@ -41,4 +41,5 @@ RUN apk --no-cache add git \
   -Dmaven.buildNumber.doUpdate=false
 
 WORKDIR /project
+ENTRYPOINT [ "/entrypoint.sh" ]
 CMD mvn jetty:run -Dhttps.protocols=TLSv1.2 -Dmaven.buildNumber.doCheck=false -Dmaven.buildNumber.doUpdate=false
