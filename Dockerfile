@@ -35,10 +35,10 @@ RUN apk --no-cache add git \
  && cp build.properties.example build.properties \
  && cp build.properties.example build.properties.a \
  && cat build.properties.a /overrides/build.properties > build.properties \
- && mvn clean package war:war \
+ && mvn clean package war:exploded \
   -Dhttps.protocols=TLSv1.2 \
   -Dmaven.buildNumber.doCheck=false \
-  -Dmaven.buildNumber.doUpdate=falsev
+  -Dmaven.buildNumber.doUpdate=false
 
 WORKDIR /project
-ENTRYPOINT ["/entrypoint.sh"]
+CMD mvn jetty:run -Dhttps.protocols=TLSv1.2 -Dmaven.buildNumber.doCheck=false -Dmaven.buildNumber.doUpdate=false
