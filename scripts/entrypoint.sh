@@ -1,11 +1,5 @@
 #!/bin/bash
 set -e
-
-if [[ -n "$@" ]]; then
-    "$@"
-    exit 0
-fi
-
 # Copies overides
 cat build.properties.example /overrides/build.properties > build.properties  2>/dev/null || cp build.properties.example build.properties
 # Builds
