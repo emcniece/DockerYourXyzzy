@@ -16,30 +16,18 @@ RUN apk add --no-cache curl tar procps \
  && rm -f /tmp/apache-maven.tar.gz \
  && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
+# PYX
 ADD scripts/entrypoint.sh /
+ENV GIT_BRANCH master
 
-RUN apk add dos2unix --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community/ --allow-untrusted \
+RUN apk add dos2unix git --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community/ --allow-untrusted \
+  && git clone -b $GIT_BRANCH https://github.com/ajanata/PretendYoureXyzzy.git /project \
   && dos2unix /entrypoint.sh \
-  && apk del dos2unix
+  && apk del dos2unix git \
+  && mkdir /overrides
 
 ADD ./overrides/settings-docker.xml /usr/share/maven/ref/
-ADD overrides /overrides
-
-# PYX
-ENV GIT_BRANCH master
-VOLUME /app /output
-
-RUN apk --no-cache add git \
- && git clone -b $GIT_BRANCH https://github.com/ajanata/PretendYoureXyzzy.git /project \
- && cd project \
- && cp build.properties.example build.properties \
- && cp build.properties.example build.properties.a \
- && cat build.properties.a /overrides/build.properties > build.properties \
- && mvn clean package war:exploded \
-  -Dhttps.protocols=TLSv1.2 \
-  -Dmaven.buildNumber.doCheck=false \
-  -Dmaven.buildNumber.doUpdate=false
+VOLUME [ "/overrides" ]
 
 WORKDIR /project
 ENTRYPOINT [ "/entrypoint.sh" ]
-CMD mvn jetty:run -Dhttps.protocols=TLSv1.2 -Dmaven.buildNumber.doCheck=false -Dmaven.buildNumber.doUpdate=false
