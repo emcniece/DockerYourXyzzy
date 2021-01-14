@@ -13,7 +13,7 @@ jobs:
     steps:
     - uses: actions/checkout@master
     - name: Check entrypoint.sh
-      run: shellcheck -e SC2199 scripts/entrypoint.sh
+      run: shellcheck scripts/entrypoint.sh
 
     - name: Build Image
       run: docker build --tag emcniece/dockeryourxyzzy .
