@@ -30,4 +30,4 @@ ADD ./overrides/settings-docker.xml /usr/share/maven/ref/
 VOLUME [ "/overrides" ]
 
 WORKDIR /project
-ENTRYPOINT [ "/entrypoint.sh" ]
+CMD [ "/entrypoint.sh" ]

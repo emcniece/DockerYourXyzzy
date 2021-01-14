@@ -70,6 +70,14 @@ docker run -d \
     -Dmaven.buildNumber.doUpdate=false \
     -Dmaven.hibernate.url=jdbc:postgresql://postgres/pyx
 ```
+Also are able to do more complex overrides by making a copy of [build.properties](./overrides/build.properties) and mounting that in overrides.
+
+```sh
+docker run -d \
+  -p 8080:8080 \
+  -v $(pwd)/build.properties:/overrides/build.properties \
+  emcniece/dockeryourxyzzy:latest
+```
 
 
 # Building
