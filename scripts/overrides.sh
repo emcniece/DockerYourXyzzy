@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+echo "Using build.properties overrides"
 # Copies overides
 cat build.properties.example /overrides/build.properties > build.properties  2>/dev/null || cp build.properties.example build.properties
 # Builds

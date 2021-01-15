@@ -17,17 +17,18 @@ RUN apk add --no-cache curl tar procps \
  && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
 # PYX
-ADD scripts/entrypoint.sh /
+ADD scripts/default.sh scripts/overrides.sh /
 ENV GIT_BRANCH master
 
 RUN apk add dos2unix git --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community/ --allow-untrusted \
+  && dos2unix /default.sh /overrides.sh \
   && git clone -b $GIT_BRANCH https://github.com/ajanata/PretendYoureXyzzy.git /project \
-  && dos2unix /entrypoint.sh \
   && apk del dos2unix git \
+  && chmod +x /default.sh /overrides.sh \
   && mkdir /overrides
 
 ADD ./overrides/settings-docker.xml /usr/share/maven/ref/
 VOLUME [ "/overrides" ]
 
 WORKDIR /project
-CMD [ "/entrypoint.sh" ]
+CMD [ "/default.sh" ]
