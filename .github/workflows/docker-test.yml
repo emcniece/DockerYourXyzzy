@@ -12,8 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - name: Check entrypoint.sh
-      run: shellcheck scripts/entrypoint.sh
+    - name: Check default.sh
+      run: shellcheck scripts/default.sh
 
     - name: Build Image
       run: docker build --tag emcniece/dockeryourxyzzy .
