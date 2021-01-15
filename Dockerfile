@@ -1,4 +1,4 @@
-FROM davidcaste/alpine-tomcat:jdk8tomcat7 as base
+FROM davidcaste/alpine-tomcat:jdk8tomcat7
 
 # MAVEN
 ENV MAVEN_VERSION 3.5.4
@@ -16,36 +16,19 @@ RUN apk add --no-cache curl tar procps \
  && rm -f /tmp/apache-maven.tar.gz \
  && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
-RUN apk add dos2unix --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community/ --allow-untrusted
+# PYX
+ADD scripts/default.sh scripts/overrides.sh /
+ENV GIT_BRANCH master
+
+RUN apk add dos2unix git --no-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community/ --allow-untrusted \
+  && dos2unix /default.sh /overrides.sh \
+  && git clone -b $GIT_BRANCH https://github.com/ajanata/PretendYoureXyzzy.git /project \
+  && apk del dos2unix git \
+  && chmod +x /default.sh /overrides.sh \
+  && mkdir /overrides
 
 ADD ./overrides/settings-docker.xml /usr/share/maven/ref/
-ADD overrides /overrides
-ADD scripts/entrypoint.sh /
-RUN dos2unix /entrypoint.sh
-
-# PYX
-ENV GIT_BRANCH master
-VOLUME /app /output
-
-# OVERRIDE:
-# Specify geoip2 version until https://github.com/ajanata/PretendYoureXyzzy/pull/228
-RUN apk --no-cache add git openssh \
- && git clone -b $GIT_BRANCH https://github.com/ajanata/PretendYoureXyzzy.git /project \
- && cd project \
- && cp build.properties.example build.properties \
- && cp build.properties.example build.properties.a \
- && cat build.properties.a /overrides/build.properties > build.properties \
- && mvn versions:use-dep-version \
-  -Dincludes=com.maxmind.geoip2:geoip2 \
-  -DdepVersion=2.8.1 \
-  -DforceVersion=true \
- && mvn clean package war:war \
-  -Dhttps.protocols=TLSv1.2 \
-  -Dmaven.buildNumber.doCheck=false \
-  -Dmaven.buildNumber.doUpdate=false
-
-ENTRYPOINT ["/entrypoint.sh"]
+VOLUME [ "/overrides" ]
 
 WORKDIR /project
-
-CMD cat build.properties.a /overrides/build.properties > build.properties && mvn clean package war:exploded jetty:run -Dhttps.protocols=TLSv1.2 -Dmaven.buildNumber.doCheck=false -Dmaven.buildNumber.doUpdate=false
+CMD [ "/default.sh" ]
