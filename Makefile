@@ -29,7 +29,7 @@ built-image:
 	docker build -t $(DOCKER_IMAGE):$(VERSION)-built -f Dockerfile.built .
 
 built-inspect:
-	docker inspect $(DOCKER_IMAGE):$(VERSION) -built
+	docker inspect $(DOCKER_IMAGE):$(VERSION)-built
 
 run:
 	docker run -d -p 8080:8080 $(DOCKER_IMAGE):$(VERSION)
