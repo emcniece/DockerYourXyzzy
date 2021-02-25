@@ -29,7 +29,7 @@ RUN mv build.properties.example build.properties \
   && mvn compile war:war -Dhttps.protocols=TLSv1.2 -Dmaven.buildNumber.doCheck=false -Dmaven.buildNumber.doUpdate=false
 
 
-FROM jetty:9-jdk11
+FROM jetty:9-jre11-slim
 
 COPY --from=builder /project/target/ZY.war /var/lib/jetty/webapps/ROOT.war
 
