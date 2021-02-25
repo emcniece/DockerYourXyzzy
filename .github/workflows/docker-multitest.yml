@@ -1,0 +1,57 @@
+name: Check Multi Arch
+
+on:
+  push:
+    branches-ignore:
+      - master
+  pull_request:
+    branches:
+      - master
+
+  
+jobs:
+    Normal:
+        - uses: actions/checkout@v2
+
+        - name: Setup ENV
+          run: echo "VERSION = $(cat VERSION)" >> $GITHUB_ENV
+
+        - name: Set up QEMU
+          uses: docker/setup-qemu-action@v1
+
+        - name: Set up Docker Buildx
+          uses: docker/setup-buildx-action@v1
+
+        - name: Cache Docker layers
+          uses: actions/cache@v2.1.4
+          with:
+            path: /tmp/.buildx-cache
+            key: ${{ runner.os }}-buildx-${{ github.sha }}
+            restore-keys: |
+              ${{ runner.os }}-buildx
+        
+        - name: Normal
+          uses: docker/build-push-action@v2
+          with:
+            platforms: linux/amd64,linux/arm64,linux/arm
+            cache-from: type=local,src=/tmp/.buildx-cache
+            cache-to: type=local,dest=/tmp/.buildx-cache
+            push: false
+            file: DockerFile
+            tags: |
+              emcniece/dockeryourxyzzy:${VERSION}
+              ghcr.io/emcniece/dockeryourxyzzy:${VERSION}
+              emcniece/dockeryourxyzzy:latest
+              ghcr.io/emcniece/dockeryourxyzzy:latest
+        
+        - name: Prebuilt
+          uses: docker/build-push-action@v2
+          with:
+            platforms: linux/amd64,linux/arm64,linux/arm
+            cache-from: type=local,src=/tmp/.buildx-cache
+            cache-to: type=local,dest=/tmp/.buildx-cache
+            push: false
+            file: DockerFile.built
+            tags: |
+              emcniece/dockeryourxyzzy:${VERSION}-built
+              ghcr.io/emcniece/dockeryourxyzzy:${VERSION}-built
