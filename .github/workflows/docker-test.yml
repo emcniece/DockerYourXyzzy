@@ -30,4 +30,4 @@ jobs:
       run: make built-image
 
     - name: Inspect
-      run: built-inspect
+      run: make built-inspect
