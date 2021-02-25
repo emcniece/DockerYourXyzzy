@@ -25,7 +25,8 @@ RUN apk add dos2unix git --no-cache --repository http://dl-3.alpinelinux.org/alp
   && git clone -b $GIT_BRANCH https://github.com/ajanata/PretendYoureXyzzy.git /project \
   && apk del dos2unix git \
   && chmod +x /default.sh /overrides.sh \
-  && mkdir /overrides
+  && mkdir /overrides \
+  && mkdir -p /project/target/ZY
 
 ADD ./overrides/settings-docker.xml /usr/share/maven/ref/
 VOLUME [ "/overrides" ]
