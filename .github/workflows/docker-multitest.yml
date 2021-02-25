@@ -11,6 +11,8 @@ on:
   
 jobs:
     Normal:
+        runs-on: ubuntu-latest
+        steps:
         - uses: actions/checkout@v2
 
         - name: Setup ENV
@@ -39,8 +41,8 @@ jobs:
             push: false
             file: DockerFile
             tags: |
-              emcniece/dockeryourxyzzy:${VERSION}
-              ghcr.io/emcniece/dockeryourxyzzy:${VERSION}
+              emcniece/dockeryourxyzzy:${{ env.VERSION }}
+              ghcr.io/emcniece/dockeryourxyzzy:${{ env.VERSION }}
               emcniece/dockeryourxyzzy:latest
               ghcr.io/emcniece/dockeryourxyzzy:latest
         
@@ -53,5 +55,5 @@ jobs:
             push: false
             file: DockerFile.built
             tags: |
-              emcniece/dockeryourxyzzy:${VERSION}-built
-              ghcr.io/emcniece/dockeryourxyzzy:${VERSION}-built
+              emcniece/dockeryourxyzzy:${{ env.VERSION }}-built
+              ghcr.io/emcniece/dockeryourxyzzy:${{ env.VERSION }}-built
