@@ -16,7 +16,7 @@ jobs:
       run: shellcheck scripts/default.sh
 
     - name: Build Image
-      run: make image .
+      run: make image
 
     - name: Inspect
       run: make inspect
@@ -31,7 +31,4 @@ jobs:
 
     - name: Inspect
       run: make built-inspect
-      run: make image 
 
-    - name: Inspect
-      run: make inspect
