@@ -48,3 +48,6 @@ release: docker
 	@echo "Pushing $(DOCKER_IMAGE):latest"
 	docker tag $(DOCKER_IMAGE):$(VERSION) $(DOCKER_IMAGE):latest
 	docker push $(DOCKER_IMAGE):latest
+
+inspect:
+	docker inspect $(DOCKER_IMAGE):$(VERSION)

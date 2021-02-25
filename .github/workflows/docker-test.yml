@@ -31,3 +31,7 @@ jobs:
 
     - name: Inspect
       run: make built-inspect
+      run: make image 
+
+    - name: Inspect
+      run: make inspect
