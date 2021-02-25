@@ -16,10 +16,10 @@ jobs:
       run: shellcheck scripts/default.sh
 
     - name: Build Image
-      run: docker build --tag emcniece/dockeryourxyzzy .
+      run: make image .
 
     - name: Inspect
-      run: docker inspect emcniece/dockeryourxyzzy
+      run: make inspect
 
   Prebuilt:
     runs-on: ubuntu-latest
