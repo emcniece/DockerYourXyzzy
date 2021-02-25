@@ -8,7 +8,7 @@ on:
       - master
 
 jobs:
-  build:
+  Normal:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
@@ -20,3 +20,14 @@ jobs:
 
     - name: Inspect
       run: docker inspect emcniece/dockeryourxyzzy
+
+  Prebuilt:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Build Image
+      run: make built-image
+
+    - name: Inspect
+      run: built-inspect
