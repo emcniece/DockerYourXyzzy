@@ -40,7 +40,7 @@ jobs:
         - name: Normal
           uses: docker/build-push-action@v2
           with:
-            platforms: linux/amd64,linux/arm64,linux/arm
+            platforms: linux/amd64,linux/arm64,linux/arm/v8
             cache-from: type=local,src=/tmp/.buildx-cache
             cache-to: type=local,dest=/tmp/.buildx-cache
             push: false
@@ -54,7 +54,7 @@ jobs:
         - name: Prebuilt
           uses: docker/build-push-action@v2
           with:
-            platforms: linux/amd64,linux/arm64,linux/arm
+            platforms: linux/amd64,linux/arm64,linux/arm/v8
             cache-from: type=local,src=/tmp/.buildx-cache
             cache-to: type=local,dest=/tmp/.buildx-cache
             push: false
