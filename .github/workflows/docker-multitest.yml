@@ -16,8 +16,13 @@ jobs:
         - uses: actions/checkout@v2
 
         - name: Setup ENV
-          run: echo "VERSION = $(cat VERSION)" >> $GITHUB_ENV
+          run: echo "VERSION=$(cat VERSION)" >> $GITHUB_ENV
 
+        - name: Debug ENV
+          run: |
+            echo $(VERSION)
+            echo ${{ env.VERSION }}
+        
         - name: Set up QEMU
           uses: docker/setup-qemu-action@v1
 
