@@ -13,15 +13,11 @@ jobs:
     Normal:
         runs-on: ubuntu-latest
         steps:
+        
         - uses: actions/checkout@v2
 
         - name: Setup ENV
           run: echo "VERSION=$(cat VERSION)" >> $GITHUB_ENV
-
-        - name: Debug ENV
-          run: |
-            echo $(VERSION)
-            echo ${{ env.VERSION }}
         
         - name: Set up QEMU
           uses: docker/setup-qemu-action@v1
@@ -62,3 +58,6 @@ jobs:
             tags: |
               emcniece/dockeryourxyzzy:${{ env.VERSION }}-built
               ghcr.io/emcniece/dockeryourxyzzy:${{ env.VERSION }}-built
+
+        - name: Check default.sh
+          run: shellcheck scripts/default.sh
