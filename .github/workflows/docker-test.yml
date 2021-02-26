@@ -8,7 +8,7 @@ on:
       - master
 
 jobs:
-  build:
+  Normal:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
@@ -16,7 +16,19 @@ jobs:
       run: shellcheck scripts/default.sh
 
     - name: Build Image
-      run: make image 
+      run: make image
 
     - name: Inspect
       run: make inspect
+
+  Prebuilt:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+
+    - name: Build Image
+      run: make built-image
+
+    - name: Inspect
+      run: make built-inspect
+
