@@ -44,7 +44,7 @@ jobs:
             cache-from: type=local,src=/tmp/.buildx-cache
             cache-to: type=local,dest=/tmp/.buildx-cache
             push: false
-            file: DockerFile
+            file: Dockerfile
             tags: |
               emcniece/dockeryourxyzzy:${{ env.VERSION }}
               ghcr.io/emcniece/dockeryourxyzzy:${{ env.VERSION }}
@@ -58,7 +58,7 @@ jobs:
             cache-from: type=local,src=/tmp/.buildx-cache
             cache-to: type=local,dest=/tmp/.buildx-cache
             push: false
-            file: DockerFile.built
+            file: Dockerfile.built
             tags: |
               emcniece/dockeryourxyzzy:${{ env.VERSION }}-built
               ghcr.io/emcniece/dockeryourxyzzy:${{ env.VERSION }}-built
